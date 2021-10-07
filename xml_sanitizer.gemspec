@@ -8,12 +8,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Amr El Bakry']
   spec.email         = ['amrr@hey.com']
 
-  spec.summary       = 'XML sanitization with Loofah.'
+  spec.summary       = 'XML sanitization with Loofah and Nokogiri.'
   spec.homepage      = 'https://github.com/amrrbakry/xml_sanitizer'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
-
-  spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata['homepage_uri'] = 'https://github.com/amrrbakry/xml_sanitizer'
   spec.metadata['source_code_uri'] = 'https://github.com/amrrbakry/xml_sanitizer'
@@ -29,4 +27,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'loofah', '~> 2.12'
 
+  spec.add_development_dependency 'byebug', '~> 11.0'
 end
