@@ -8,7 +8,7 @@ module XmlSanitizer
   class << self
     def sanitize(xml:, scrubber: DefaultPermitScrubber.new)
       xml_document = Loofah.xml_document(xml)
-      
+
       xml_document.scrub!(scrubber)
       xml_document.to_xml
     end
@@ -17,7 +17,7 @@ module XmlSanitizer
 
     def sanitize_fragment(xml:, scrubber: DefaultPermitScrubber.new)
       xml_fragment = Loofah.xml_fragment(xml)
-      
+
       xml_fragment.scrub!(scrubber)
       xml_fragment.to_xml
     end
