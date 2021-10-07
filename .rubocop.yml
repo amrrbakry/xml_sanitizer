@@ -1,0 +1,9 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
+Layout/LineLength:
+  Max: 120
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context']
+Style/Documentation:
+  Enabled: false
