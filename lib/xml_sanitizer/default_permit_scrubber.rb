@@ -2,11 +2,11 @@
 
 module XmlSanitizer
   class DefaultPermitScrubber < Loofah::Scrubber
-    attr_accessor :direction, :permit_tags
+    attr_accessor :direction, :tags
 
-    def initialize(permit_tags: [])
+    def initialize(tags: [])
       super
-      @permit_tags = permit_tags
+      @tags = tags
     end
 
     def scrub(node)
@@ -20,7 +20,7 @@ module XmlSanitizer
     end
 
     def namespace_prefix?(node)
-      node&.namespace&.prefix
+      !!node&.namespace&.prefix
     end
 
     def node_name_with_namespace_prefix(node)
@@ -30,7 +30,7 @@ module XmlSanitizer
     protected
 
     def allowed_node?(node)
-      permit_tags.include?(node_name(node))
+      tags.include?(node_name(node))
     end
 
     def skip_node?(node)
