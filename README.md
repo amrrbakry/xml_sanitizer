@@ -1,8 +1,18 @@
 # XmlSanitizer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/xml_sanitizer`. To experiment with that code, run `bin/console` for an interactive prompt.
+XML sanitization with [Loofah](https://github.com/flavorjones/loofah) and [Nokogiri](https://github.com/sparklemotion/nokogiri).
 
-TODO: Delete this and the text above, and describe your gem
+```ruby
+scrubber = XmlSanitizer::DefaultPermitScrubber.new
+scrubber.tags = ["foo", "bar"]
+
+xml = '<foo><bar><baz>baz</baz></bar></foo>'
+
+XmlSanitizer.sanitize(xml: xml, scrubber: scrubber) # or use your custom scrubber
+# => "<?xml version=\"1.0\"?>\n<foo>\n  <bar/>\n</foo>\n"
+```
+
+The default scrubber will remove all non-permitted tags and their subtrees.
 
 ## Installation
 
@@ -22,7 +32,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Sanitize an XML document
+```ruby
+scrubber = XmlSanitizer::DefaultPermitScrubber.new
+scrubber.tags = ["foo"]
+scrubber.direction = :bottom_up # default is :top_down
+
+xml = '<foo><bar><baz>baz</baz></bar></foo>'
+
+XmlSanitizer.sanitize(xml: xml, scrubber: scrubber)
+# => "<?xml version=\"1.0\"?>\n<foo/>\n"
+```
+
+#### with XML namespaces
+
+```ruby
+scrubber = XmlSanitizer::DefaultPermitScrubber.new
+scrubber.tags = ["ns:foo"]
+
+xml = '<ns:foo xmlns:ns="http://www.w3.org/TR/html4/"><bar>baz</bar></ns:foo>'
+
+XmlSanitizer.sanitize(xml: xml, scrubber: scrubber)
+# => "<?xml version=\"1.0\"?>\n<ns:foo xmlns:ns=\"http://www.w3.org/TR/html4/\"/>\n"
+ ```
+
+### Sanitize an XML fragment
+```ruby
+scrubber = XmlSanitizer::DefaultPermitScrubber.new(tags: %w[foo bar])
+xml = '<foo><bar>baz</bar></foo>'
+
+XmlSanitizer.sanitize_fragment(xml: xml, scrubber: scrubber)
+# => "<foo>\n  <bar>baz</bar>\n</foo>"
+ ```
 
 ## Development
 
@@ -32,7 +73,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/xml_sanitizer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/xml_sanitizer/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/amrrbakry/xml_sanitizer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/amrrbakry/xml_sanitizer/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -40,4 +81,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the XmlSanitizer project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/xml_sanitizer/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the XmlSanitizer project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/amrrbakry/xml_sanitizer/blob/master/CODE_OF_CONDUCT.md).
